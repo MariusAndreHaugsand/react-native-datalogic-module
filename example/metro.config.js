@@ -1,9 +1,4 @@
-/**
- * Metro configuration for React Native
- * https://github.com/facebook/react-native
- *
- * @format
- */
+const {getDefaultConfig, mergeConfig} = require('@react-native/metro-config');
 const path = require('path');
 const blacklist = require('metro-config/src/defaults/exclusionList');
 const escape = require('escape-string-regexp');
@@ -15,7 +10,13 @@ const modules = Object.keys({
   ...pak.peerDependencies,
 });
 
-module.exports = {
+/**
+ * Metro configuration
+ * https://reactnative.dev/docs/metro
+ *
+ * @type {import('@react-native/metro-config').MetroConfig}
+ */
+const config = {
   projectRoot: __dirname,
   watchFolders: [root],
 
@@ -24,9 +25,8 @@ module.exports = {
   resolver: {
     blacklistRE: blacklist(
       modules.map(
-        (m) =>
-          new RegExp(`^${escape(path.join(root, 'node_modules', m))}\\/.*$`)
-      )
+        m => new RegExp(`^${escape(path.join(root, 'node_modules', m))}\\/.*$`),
+      ),
     ),
 
     extraNodeModules: modules.reduce((acc, name) => {
@@ -44,3 +44,5 @@ module.exports = {
     }),
   },
 };
+
+module.exports = mergeConfig(getDefaultConfig(__dirname), config);
