@@ -93,8 +93,8 @@ class KeyboardManager(reactContext: ReactApplicationContext) : ReactContextBaseJ
 
       val arraySize: Int = array.size()
       for(i: Int in 0 until arraySize) {
-        val id: Int = array.getMap(i).getInt("id")
-        val enabled: Boolean = array.getMap(i).getBoolean("enabled")
+        val id: Int = array.getMap(i)!!.getInt("id")
+        val enabled: Boolean = array.getMap(i)!!.getBoolean("enabled")
         triggersMap.put(id, enabled)
       }
 
